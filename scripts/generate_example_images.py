@@ -13,6 +13,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 VISUALS = ROOT / "examples" / "northstar_retail_group" / "visuals"
+GENERATED_OUTPUTS = ROOT / "examples" / "northstar_retail_group" / "generated_outputs"
+OUTPUT_PREVIEWS = ROOT / "examples" / "northstar_retail_group" / "output_previews"
 
 BG = "#f8fafc"
 INK = "#0f172a"
@@ -46,6 +48,8 @@ BODY = font(18)
 BODY_BOLD = font(18, True)
 SMALL = font(15)
 METRIC = font(54, True)
+PREVIEW_TITLE = font(34, True)
+PREVIEW_H2 = font(23, True)
 
 
 def canvas(width: int = 1400, height: int = 788) -> tuple[Image.Image, ImageDraw.ImageDraw]:
@@ -75,9 +79,70 @@ def save(image: Image.Image, name: str) -> None:
     image.save(VISUALS / name, "PNG", optimize=True)
 
 
+def save_preview(image: Image.Image, name: str) -> None:
+    OUTPUT_PREVIEWS.mkdir(parents=True, exist_ok=True)
+    image.save(OUTPUT_PREVIEWS / name, "PNG", optimize=True)
+
+
 def draw_header(draw: ImageDraw.ImageDraw, title: str, subtitle: str) -> None:
     draw.text((70, 52), title, fill=INK, font=TITLE)
     draw.text((70, 105), subtitle, fill=TEXT, font=SUBTITLE)
+
+
+def wrap_text(draw: ImageDraw.ImageDraw, text: str, fnt: ImageFont.ImageFont, max_width: int) -> list[str]:
+    words = text.split()
+    lines: list[str] = []
+    current: list[str] = []
+    for word in words:
+        proposed_line = " ".join([*current, word])
+        width = draw.textbbox((0, 0), proposed_line, font=fnt)[2]
+        if width <= max_width:
+            current.append(word)
+            continue
+        if current:
+            lines.append(" ".join(current))
+        current = [word]
+    if current:
+        lines.append(" ".join(current))
+    return lines
+
+
+def extract_preview_lines(path: Path, max_items: int = 6) -> tuple[str, list[str]]:
+    title = path.stem
+    lines: list[str] = []
+    paragraph: list[str] = []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        stripped = raw.strip()
+        if not stripped:
+            if paragraph:
+                lines.append(" ".join(paragraph))
+                paragraph = []
+            if len(lines) >= max_items:
+                break
+            continue
+        if stripped.startswith("# "):
+            title = stripped[2:].strip()
+            continue
+        if stripped.startswith("- "):
+            if paragraph:
+                lines.append(" ".join(paragraph))
+                paragraph = []
+            lines.append(stripped[2:].strip())
+        elif stripped.startswith("|") and "---" not in stripped:
+            cells = [cell.strip() for cell in stripped.strip("|").split("|")]
+            if len(cells) >= 2 and cells[0] != "Category":
+                lines.append(f"{cells[0]}: {cells[1]}")
+        elif stripped.startswith("## ") and len(lines) < max_items:
+            section = stripped[3:].strip()
+            if section not in {"Score Summary"}:
+                lines.append(section)
+        elif not stripped.startswith("#") and not stripped.startswith("|"):
+            paragraph.append(stripped)
+        if len(lines) >= max_items:
+            break
+    if paragraph and len(lines) < max_items:
+        lines.append(" ".join(paragraph))
+    return title, lines[:max_items]
 
 
 def build_banner() -> None:
@@ -235,11 +300,56 @@ def build_scores() -> None:
     save(image, "discovery_scores_and_coverage.png")
 
 
+def build_output_previews() -> None:
+    previews = [
+        ("Executive Summary.md", "01_executive_summary.png", BLUE),
+        ("Customer Profile.md", "02_customer_profile.png", GREEN),
+        ("Business Challenges.md", "03_business_challenges.png", ORANGE),
+        ("Technical Requirements.md", "04_technical_requirements.png", BLUE),
+        ("Discovery Gaps.md", "05_discovery_gaps.png", ORANGE),
+        ("Recommended Next Questions.md", "06_recommended_next_questions.png", GREEN),
+        ("Customer Meeting Brief.md", "07_customer_meeting_brief.png", BLUE),
+        ("Solution Recommendations.md", "08_solution_recommendations.png", GREEN),
+        ("Discovery Quality Score.md", "09_discovery_quality_score.png", ORANGE),
+        ("Discovery Maturity Assessment.md", "10_discovery_maturity_assessment.png", BLUE),
+        ("Next Steps.md", "11_next_steps.png", GREEN),
+    ]
+    for markdown_name, image_name, accent in previews:
+        path = GENERATED_OUTPUTS / markdown_name
+        title, lines = extract_preview_lines(path)
+        image, draw = canvas(1200, 675)
+        draw.rounded_rectangle((0, 0, 1200, 675), radius=0, fill=BG)
+        draw.rectangle((0, 0, 1200, 14), fill=accent)
+        draw.text((64, 58), "Discovery Copilot Output", fill=TEXT, font=SUBTITLE)
+        draw.text((64, 96), title, fill=INK, font=PREVIEW_TITLE)
+
+        rounded(draw, (64, 170, 1136, 570), "#ffffff")
+        y = 210
+        for item in lines:
+            draw.ellipse((96, y + 9, 106, y + 19), fill=accent)
+            wrapped = wrap_text(draw, item, BODY, 900)
+            for line in wrapped[:2]:
+                draw.text((126, y), line, fill=INK, font=BODY)
+                y += 28
+            y += 18
+            if y > 500:
+                break
+
+        draw.text(
+            (64, 616),
+            f"Source: generated_outputs/{markdown_name}",
+            fill=TEXT,
+            font=SMALL,
+        )
+        save_preview(image, image_name)
+
+
 def main() -> None:
     build_banner()
     build_workflow()
     build_architecture()
     build_scores()
+    build_output_previews()
 
 
 if __name__ == "__main__":
