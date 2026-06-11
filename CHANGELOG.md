@@ -3,7 +3,7 @@
 ## Unreleased
 
 - Added local mock provider for demos without an OpenAI API key.
-- Added Northstar Retail Group enterprise portfolio example.
+- Added Northstar Retail Group enterprise example.
 - Added sample generated outputs, discovery report, diagrams, chart data, and
   visual assets.
 - Added security guidance and development test dependencies.

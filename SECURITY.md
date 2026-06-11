@@ -2,8 +2,8 @@
 
 ## Supported Versions
 
-Discovery Copilot is currently a portfolio project. Security fixes are applied
-to the `main` branch.
+Discovery Copilot is currently an open-source example project. Security fixes
+are applied to the `main` branch.
 
 ## Reporting a Vulnerability
 

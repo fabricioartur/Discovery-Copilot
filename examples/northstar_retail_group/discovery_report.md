@@ -1,6 +1,6 @@
 # Northstar Retail Group - Consolidated Discovery Report
 
-## Portfolio Context
+## Report Context
 
 This fictional report demonstrates how a Solutions Engineer can turn ambiguous
 enterprise discovery notes into executive context, technical requirements,
@@ -50,7 +50,7 @@ support platforms, integration approaches, and operating processes by country.
 - Support volume spikes during peak seasons.
 - Store managers lack timely operational exception visibility.
 
-## Candidate Solution Direction
+## Proposed Solution Direction
 
 The recommended direction is a human-in-the-loop AI assistant supported by
 approved knowledge retrieval and enterprise API access. The assistant should
@@ -116,9 +116,9 @@ Start with order status and refund assistance for Brazil and Mexico support
 agents. This workflow is high-volume, has clear business value, and can be
 limited to read-heavy enterprise data access while avoiding direct ERP writes.
 
-## Recruiter Review Notes
+## Professional Review Notes
 
-This example highlights the candidate's ability to:
+This example highlights the ability to:
 
 - Translate messy stakeholder input into structured business and technical
   documentation.

@@ -1,7 +1,7 @@
-"""Generate PNG portfolio visuals for the Northstar example.
+"""Generate PNG example visuals for the Northstar scenario.
 
 This script is intentionally optional. The generated PNG files are committed so
-reviewers do not need Pillow installed to view the repository.
+the repository can be viewed without installing Pillow.
 """
 
 from __future__ import annotations
@@ -28,12 +28,12 @@ GRAY_LIGHT = "#f8fafc"
 
 
 def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
-    candidates = [
+    font_paths = [
         "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
         "/System/Library/Fonts/Supplemental/Helvetica Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Helvetica.ttf",
         "/Library/Fonts/Arial Bold.ttf" if bold else "/Library/Fonts/Arial.ttf",
     ]
-    for path in candidates:
+    for path in font_paths:
         if Path(path).exists():
             return ImageFont.truetype(path, size)
     return ImageFont.load_default()
@@ -92,7 +92,7 @@ def build_banner() -> None:
         (70, 185, 370, 405, "Input", ".txt / .md discovery notes", BLUE_LIGHT, BLUE),
         (410, 185, 710, 405, "AI Analysis", "OpenAI or local mock provider", GREEN_LIGHT, GREEN),
         (750, 185, 1050, 405, "Outputs", "11 structured Markdown reports", ORANGE_LIGHT, ORANGE),
-        (1090, 185, 1330, 405, "Portfolio", "Northstar enterprise example", GRAY_LIGHT, "#64748b"),
+        (1090, 185, 1330, 405, "Case", "Northstar enterprise example", GRAY_LIGHT, "#64748b"),
     ]
     for box in cards:
         x1, y1, x2, y2, title, subtitle, fill, outline = box
@@ -104,14 +104,14 @@ def build_banner() -> None:
         arrow(draw, (x, 295), (x + 18, 295))
 
     rounded(draw, (70, 470, 1330, 560), "#ffffff")
-    draw.text((105, 500), "Recruiter signal:", fill=INK, font=BODY_BOLD)
+    draw.text((105, 500), "Project signal:", fill=INK, font=BODY_BOLD)
     draw.text(
         (260, 500),
         "shows product thinking, discovery quality, solution framing, and runnable code.",
         fill=TEXT,
         font=BODY,
     )
-    save(image, "portfolio_banner.png")
+    save(image, "overview_banner.png")
 
 
 def build_workflow() -> None:
@@ -143,7 +143,7 @@ def build_workflow() -> None:
     rounded(draw, (130, 455, 610, 650), BLUE_LIGHT, BLUE)
     draw.text((165, 490), "Mock mode", fill=INK, font=H2)
     draw.text((165, 535), "Runs locally without an API key.", fill=TEXT, font=BODY)
-    draw.text((165, 565), "Useful for hiring managers reviewing the repo.", fill=TEXT, font=BODY)
+    draw.text((165, 565), "Useful for reviewing the project without external services.", fill=TEXT, font=BODY)
 
     rounded(draw, (790, 455, 1270, 650), GREEN_LIGHT, GREEN)
     draw.text((825, 490), "OpenAI mode", fill=INK, font=H2)
@@ -195,7 +195,7 @@ def build_scores() -> None:
     draw_header(
         draw,
         "Discovery Quality and Requirements Coverage",
-        "Sample metrics produced for the Northstar Retail Group portfolio scenario",
+        "Sample metrics produced for the Northstar Retail Group enterprise scenario",
     )
 
     scores = [
