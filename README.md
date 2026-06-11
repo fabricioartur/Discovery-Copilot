@@ -324,3 +324,16 @@ Discovery Copilot is not a chatbot. It is a focused productivity tool for
 enterprise pre-sales work. The emphasis is on structured outputs, reasoning,
 discovery quality, and practical documentation that saves time after customer
 meetings.
+
+## Author
+
+Created by Fabricio Puliafico Artur.
+
+- GitHub: [fabricioartur](https://github.com/fabricioartur)
+
+## License
+
+Copyright (c) 2026 Fabricio Puliafico Artur.
+
+This project is released under the MIT License. See [LICENSE](LICENSE) for
+details.
