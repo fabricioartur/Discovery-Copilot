@@ -30,6 +30,7 @@ steps.
 - Scores discovery quality across key pre-sales dimensions
 - Produces a customer meeting brief for internal teams
 - Uses environment variables for API configuration
+- Includes a local mock provider for recruiter-friendly demos without an API key
 - Handles missing files, invalid formats, empty documents, missing API keys,
   rate limits, and API failures gracefully
 
@@ -69,6 +70,12 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+For development and tests:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
 Create your environment file:
 
 ```bash
@@ -88,6 +95,15 @@ OPENAI_MODEL=gpt-4o-mini
 ```
 
 ## Usage
+
+Run the portfolio demo locally without an API key:
+
+```bash
+python3 main.py examples/northstar_retail_group/discovery_notes.md --provider mock
+```
+
+This generates the 11 Markdown reports in `output/` using deterministic sample
+content. It is the fastest way to review the project.
 
 Run Discovery Copilot with a supported input file:
 
@@ -116,14 +132,38 @@ python main.py input/discovery_notes.txt
 Successful execution prints the list of generated reports and writes them to
 `output/`.
 
+To use the OpenAI API, configure `.env` and run the default provider:
+
+```bash
+python3 main.py input/sample_discovery_notes.md --provider openai
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+python3 -m unittest discover
+```
+
 ## Folder Structure
 
 ```text
 discovery-copilot/
 ├── main.py
 ├── requirements.txt
+├── requirements-dev.txt
 ├── README.md
+├── CHANGELOG.md
+├── SECURITY.md
 ├── .env.example
+├── examples/
+│   └── northstar_retail_group/
+│       ├── discovery_notes.md
+│       ├── discovery_report.md
+│       ├── generated_outputs/
+│       ├── visuals/
+│       └── chart_data/
 ├── input/
 │   └── sample_discovery_notes.md
 ├── output/
@@ -135,8 +175,10 @@ discovery-copilot/
 │   ├── exceptions.py
 │   ├── generator.py
 │   ├── input_loader.py
+│   ├── mock_client.py
 │   ├── openai_client.py
 │   └── reports.py
+├── tests/
 └── utils/
     └── files.py
 ```
@@ -170,6 +212,7 @@ Explore the sample package:
 - [Consolidated discovery report](examples/northstar_retail_group/discovery_report.md)
 - [Solution flow diagram - Mermaid](examples/northstar_retail_group/visuals/solution_flow.mmd)
 - [Target architecture diagram - Mermaid](examples/northstar_retail_group/visuals/target_architecture.mmd)
+- [Portfolio overview visual - PNG](examples/northstar_retail_group/visuals/portfolio_overview.png)
 - [Portfolio overview visual - SVG](examples/northstar_retail_group/visuals/portfolio_overview.svg)
 - [Discovery score chart data](examples/northstar_retail_group/chart_data/discovery_scores.csv)
 - [Requirements coverage chart data](examples/northstar_retail_group/chart_data/requirements_coverage.csv)
@@ -177,7 +220,7 @@ Explore the sample package:
 ### Example Usage With Northstar Notes
 
 ```bash
-python3 main.py examples/northstar_retail_group/discovery_notes.md
+python3 main.py examples/northstar_retail_group/discovery_notes.md --provider mock
 ```
 
 The command generates Markdown reports in `output/`. The repository also
@@ -187,7 +230,7 @@ the expected portfolio output without running the application.
 
 ### Visual Portfolio Preview
 
-![Northstar Retail Group portfolio overview](examples/northstar_retail_group/visuals/portfolio_overview.svg)
+![Northstar Retail Group portfolio overview](examples/northstar_retail_group/visuals/portfolio_overview.png)
 
 ### Sample Discovery Score
 

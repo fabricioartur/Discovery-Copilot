@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from src.openai_client import DiscoveryOpenAIClient
+from src.client_protocol import ReportGenerationClient
 from src.reports import REPORTS
 from utils.files import ensure_directory, read_prompt, write_markdown
 
@@ -13,7 +13,7 @@ PROMPTS_DIR = Path("prompts")
 OUTPUT_DIR = Path("output")
 
 
-def generate_reports(document: str, client: DiscoveryOpenAIClient) -> list[Path]:
+def generate_reports(document: str, client: ReportGenerationClient) -> list[Path]:
     """Generate all Discovery Copilot reports and return written paths."""
 
     ensure_directory(OUTPUT_DIR)

@@ -25,6 +25,7 @@ evaluating Solutions Engineer or Pre-Sales Engineer skills.
 - `discovery_report.md` - consolidated executive and technical report
 - `visuals/solution_flow.mmd` - Mermaid solution flow diagram
 - `visuals/target_architecture.mmd` - Mermaid target architecture diagram
+- `visuals/portfolio_overview.png` - PNG preview for GitHub and portfolio use
 - `visuals/portfolio_overview.svg` - PNG-ready visual asset
 - `chart_data/discovery_scores.csv` - discovery quality score data
 - `chart_data/requirements_coverage.csv` - requirements coverage data

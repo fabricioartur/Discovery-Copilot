@@ -10,6 +10,7 @@ from src.config import load_settings
 from src.exceptions import DiscoveryCopilotError
 from src.generator import generate_reports
 from src.input_loader import load_input_document
+from src.mock_client import MockDiscoveryClient
 from src.openai_client import DiscoveryOpenAIClient
 
 
@@ -27,6 +28,15 @@ def parse_args() -> argparse.Namespace:
         "input_file",
         help="Path to a .txt or .md discovery notes file.",
     )
+    parser.add_argument(
+        "--provider",
+        choices=("openai", "mock"),
+        default="openai",
+        help=(
+            "Report generation provider. Use 'mock' for local demos without "
+            "an OpenAI API key."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -37,8 +47,11 @@ def main() -> int:
 
     try:
         document = load_input_document(args.input_file)
-        settings = load_settings()
-        client = DiscoveryOpenAIClient(settings)
+        if args.provider == "mock":
+            client = MockDiscoveryClient()
+        else:
+            settings = load_settings()
+            client = DiscoveryOpenAIClient(settings)
         written_files = generate_reports(document, client)
     except DiscoveryCopilotError as exc:
         print(f"Error: {exc}", file=sys.stderr)
