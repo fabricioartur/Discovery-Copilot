@@ -1,0 +1,55 @@
+flowchart TB
+    subgraph Users["Northstar Users"]
+        Agent["Support Agents"]
+        Store["Store Managers"]
+        Ops["Support Operations"]
+    end
+
+    subgraph Access["Access and Governance"]
+        Entra["Microsoft Entra ID"]
+        RBAC["Role-Based Access Control"]
+        Audit["Audit and Retention Policy"]
+    end
+
+    subgraph Assistant["Recommended AI Assistant Layer"]
+        UX["Internal Assistant Experience"]
+        Orchestrator["AI Orchestrator"]
+        Redaction["PII Redaction"]
+        Guardrails["Policy Guardrails"]
+        RAG["Approved Knowledge Retrieval"]
+    end
+
+    subgraph Integration["Enterprise Integration Layer"]
+        MuleSoft["MuleSoft API Gateway"]
+        SOAP["SOAP Adapter Services"]
+        Events["Event and Batch Bridges"]
+    end
+
+    subgraph Systems["Enterprise Systems"]
+        Salesforce["Salesforce Service Cloud"]
+        Zendesk["Zendesk Migration Source"]
+        OMS["Legacy OMS"]
+        SAP["SAP ECC"]
+        Oracle["Oracle E-Business Suite"]
+        Snowflake["Snowflake Analytics"]
+    end
+
+    Agent --> UX
+    Store --> UX
+    Ops --> UX
+    UX --> Entra
+    Entra --> RBAC
+    RBAC --> Orchestrator
+    Orchestrator --> Redaction
+    Redaction --> Guardrails
+    Guardrails --> RAG
+    Guardrails --> MuleSoft
+    MuleSoft --> Salesforce
+    MuleSoft --> Zendesk
+    MuleSoft --> OMS
+    MuleSoft --> SAP
+    MuleSoft --> Oracle
+    SOAP --> OMS
+    Events --> Snowflake
+    Orchestrator --> Audit
+    Audit --> Snowflake

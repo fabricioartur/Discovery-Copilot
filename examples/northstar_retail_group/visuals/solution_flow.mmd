@@ -1,0 +1,29 @@
+flowchart LR
+    A["Raw discovery notes<br/>Meeting transcript, workshop notes, SE observations"]
+    B["Discovery Copilot CLI<br/>python main.py discovery_notes.md"]
+    C["Prompt templates<br/>Executive, technical, gaps, scoring"]
+    D["OpenAI API<br/>Structured reasoning and report drafting"]
+    E["Markdown reports<br/>11 generated outputs"]
+    F["SE review<br/>Validate assumptions and sharpen recommendations"]
+    G["Customer follow-up<br/>Workshop agenda, open questions, pilot plan"]
+
+    A --> B
+    C --> B
+    B --> D
+    D --> E
+    E --> F
+    F --> G
+
+    subgraph Outputs["Generated Portfolio Outputs"]
+        E1["Executive Summary"]
+        E2["Technical Requirements"]
+        E3["Discovery Gaps"]
+        E4["Solution Recommendations"]
+        E5["Discovery Quality Score"]
+    end
+
+    E --> E1
+    E --> E2
+    E --> E3
+    E --> E4
+    E --> E5

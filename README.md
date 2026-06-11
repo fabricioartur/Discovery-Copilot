@@ -155,29 +155,39 @@ Markdown documents. Example report content includes:
 - Discovery quality score and maturity assessment
 - Prioritized next-step action plan
 
-## Screenshots and Examples
+## Portfolio Example: Northstar Retail Group
 
 The repository includes a complete fictional enterprise scenario for
 **Northstar Retail Group**, a large retail company with 420 stores, e-commerce
 operations, customer support teams, and legacy systems across Latin America.
+The example is designed to make the repository easy to evaluate for Solutions
+Engineer and Pre-Sales Engineer roles.
 
 Explore the sample package:
 
-- [Discovery meeting notes](examples/northstar-retail-group/discovery-meeting-notes.md)
-- [Generated sample output files](examples/northstar-retail-group/generated-output)
-- [Consolidated sample report](examples/northstar-retail-group/consolidated-sample-report.md)
-- [Discovery Copilot workflow diagram - SVG](examples/northstar-retail-group/diagrams/discovery-copilot-workflow.svg)
-- [Northstar recommended solution architecture - SVG](examples/northstar-retail-group/diagrams/architecture.svg)
-- [Discovery score chart data - CSV](examples/northstar-retail-group/data/discovery-score-chart.csv)
-- [Discovery score chart data - JSON](examples/northstar-retail-group/data/discovery-score-chart.json)
+- [Discovery notes](examples/northstar_retail_group/discovery_notes.md)
+- [Generated output reports](examples/northstar_retail_group/generated_outputs)
+- [Consolidated discovery report](examples/northstar_retail_group/discovery_report.md)
+- [Solution flow diagram - Mermaid](examples/northstar_retail_group/visuals/solution_flow.mmd)
+- [Target architecture diagram - Mermaid](examples/northstar_retail_group/visuals/target_architecture.mmd)
+- [Portfolio overview visual - SVG](examples/northstar_retail_group/visuals/portfolio_overview.svg)
+- [Discovery score chart data](examples/northstar_retail_group/chart_data/discovery_scores.csv)
+- [Requirements coverage chart data](examples/northstar_retail_group/chart_data/requirements_coverage.csv)
 
-### Discovery Copilot Workflow
+### Example Usage With Northstar Notes
 
-![Discovery Copilot workflow diagram](examples/northstar-retail-group/diagrams/discovery-copilot-workflow.svg)
+```bash
+python3 main.py examples/northstar_retail_group/discovery_notes.md
+```
 
-### Northstar Recommended Solution Architecture
+The command generates Markdown reports in `output/`. The repository also
+includes prebuilt sample reports in
+`examples/northstar_retail_group/generated_outputs/` so reviewers can inspect
+the expected portfolio output without running the application.
 
-![Northstar Retail Group architecture diagram](examples/northstar-retail-group/diagrams/architecture.svg)
+### Visual Portfolio Preview
+
+![Northstar Retail Group portfolio overview](examples/northstar_retail_group/visuals/portfolio_overview.svg)
 
 ### Sample Discovery Score
 
@@ -191,6 +201,25 @@ Explore the sample package:
 | Risk Identification | 79 |
 | Architecture Readiness | 74 |
 | Overall Discovery Score | 76 |
+
+### Requirements Coverage
+
+| Area | Coverage |
+| --- | ---: |
+| Business Requirements | 80% |
+| Technical Requirements | 69% |
+| Security Requirements | 58% |
+| Integration Requirements | 73% |
+| Infrastructure Requirements | 56% |
+| Success Metrics | 50% |
+| Stakeholder Mapping | 88% |
+
+### Why This Matters For Portfolio Review
+
+This example shows practical pre-sales judgment: the tool does not only produce
+summaries. It identifies gaps, separates explicit and inferred requirements,
+scores discovery quality, proposes a focused pilot, and gives a hiring manager
+clear evidence of enterprise discovery and solution-framing ability.
 
 ## Future Roadmap
 

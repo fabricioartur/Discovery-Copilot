@@ -1,0 +1,51 @@
+[
+  {
+    "area": "Business Requirements",
+    "identified": 8,
+    "missing": 2,
+    "total": 10,
+    "coverage_percent": 80
+  },
+  {
+    "area": "Technical Requirements",
+    "identified": 9,
+    "missing": 4,
+    "total": 13,
+    "coverage_percent": 69
+  },
+  {
+    "area": "Security Requirements",
+    "identified": 7,
+    "missing": 5,
+    "total": 12,
+    "coverage_percent": 58
+  },
+  {
+    "area": "Integration Requirements",
+    "identified": 8,
+    "missing": 3,
+    "total": 11,
+    "coverage_percent": 73
+  },
+  {
+    "area": "Infrastructure Requirements",
+    "identified": 5,
+    "missing": 4,
+    "total": 9,
+    "coverage_percent": 56
+  },
+  {
+    "area": "Success Metrics",
+    "identified": 4,
+    "missing": 4,
+    "total": 8,
+    "coverage_percent": 50
+  },
+  {
+    "area": "Stakeholder Mapping",
+    "identified": 7,
+    "missing": 1,
+    "total": 8,
+    "coverage_percent": 88
+  }
+]
