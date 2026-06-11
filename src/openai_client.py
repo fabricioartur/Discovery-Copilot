@@ -2,8 +2,16 @@
 
 from __future__ import annotations
 
+import logging
+import time
+
 from src.config import Settings
 from src.exceptions import ReportGenerationError
+
+logger = logging.getLogger(__name__)
+
+_MAX_RETRIES = 3
+_RETRY_BASE_DELAY = 2.0  # seconds; doubles on each attempt
 
 
 class DiscoveryOpenAIClient:
@@ -17,40 +25,59 @@ class DiscoveryOpenAIClient:
                 "The OpenAI package is not installed. Run: pip install -r requirements.txt"
             ) from exc
 
-        self._client = OpenAI(api_key=settings.openai_api_key)
+        self._client = OpenAI(
+            api_key=settings.openai_api_key,
+            timeout=60.0,
+        )
         self._model = settings.model
 
     def generate_markdown(self, system_prompt: str, user_prompt: str) -> str:
-        """Generate Markdown content for one report."""
+        """Generate Markdown content for one report, with retry on rate limits."""
 
         try:
             from openai import APIConnectionError, APIStatusError, RateLimitError
-
-            response = self._client.responses.create(
-                model=self._model,
-                input=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
-                ],
-                temperature=0.2,
-            )
-        except RateLimitError as exc:
+        except ModuleNotFoundError as exc:
             raise ReportGenerationError(
-                "OpenAI rate limit reached. Wait a moment and try again."
+                "The OpenAI package is not installed. Run: pip install -r requirements.txt"
             ) from exc
-        except APIConnectionError as exc:
-            raise ReportGenerationError(
-                "Could not connect to the OpenAI API. Check your network connection."
-            ) from exc
-        except APIStatusError as exc:
-            raise ReportGenerationError(
-                f"OpenAI API returned an error: HTTP {exc.status_code}."
-            ) from exc
-        except Exception as exc:
-            raise ReportGenerationError(f"Unexpected API failure: {exc}") from exc
 
-        content = response.output_text.strip()
-        if not content:
-            raise ReportGenerationError("OpenAI returned an empty response.")
+        last_exc: Exception | None = None
+        for attempt in range(_MAX_RETRIES):
+            try:
+                logger.debug("Calling OpenAI API (model=%s, attempt=%d)", self._model, attempt + 1)
+                response = self._client.responses.create(
+                    model=self._model,
+                    input=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    temperature=0.2,
+                )
+                content = response.output_text.strip()
+                if not content:
+                    raise ReportGenerationError("OpenAI returned an empty response.")
+                return content
 
-        return content
+            except RateLimitError as exc:
+                last_exc = exc
+                if attempt < _MAX_RETRIES - 1:
+                    delay = _RETRY_BASE_DELAY * (2 ** attempt)
+                    logger.warning("Rate limit hit. Retrying in %.0fs (attempt %d/%d).", delay, attempt + 1, _MAX_RETRIES)
+                    time.sleep(delay)
+
+            except APIConnectionError as exc:
+                raise ReportGenerationError(
+                    "Could not connect to the OpenAI API. Check your network connection."
+                ) from exc
+
+            except APIStatusError as exc:
+                raise ReportGenerationError(
+                    f"OpenAI API returned an error: HTTP {exc.status_code}."
+                ) from exc
+
+            except Exception as exc:
+                raise ReportGenerationError(f"Unexpected API failure: {exc}") from exc
+
+        raise ReportGenerationError(
+            f"OpenAI rate limit reached after {_MAX_RETRIES} attempts. Wait a moment and try again."
+        ) from last_exc

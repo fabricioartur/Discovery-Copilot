@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import logging
 import sys
 from pathlib import Path
 
-from src.config import load_settings
+from src.config import MODEL_CHOICES, DEFAULT_MODEL, load_settings
 from src.exceptions import DiscoveryCopilotError
 from src.generator import generate_reports
 from src.input_loader import load_input_document
@@ -15,13 +16,24 @@ from src.openai_client import DiscoveryOpenAIClient
 
 
 def parse_args() -> argparse.Namespace:
-    """Parse command-line arguments."""
-
+    model_help = "  |  ".join(f"{m}: {d}" for m, d in MODEL_CHOICES.items())
     parser = argparse.ArgumentParser(
-        prog="Discovery Copilot",
+        prog="discovery-copilot",
         description=(
             "Generate structured pre-sales discovery reports from .txt or .md "
-            "customer notes."
+            "customer notes using the OpenAI API."
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "Examples:\n"
+            "  # Demo mode — no API key required\n"
+            "  python main.py examples/northstar_retail_group/discovery_notes.md --provider mock\n\n"
+            "  # Standard run with default model (gpt-4o-mini)\n"
+            "  python main.py input/my_notes.md\n\n"
+            "  # High-quality run for a strategic account\n"
+            "  python main.py input/my_notes.md --model gpt-4o\n\n"
+            "  # Deep gap analysis using a reasoning model\n"
+            "  python main.py input/my_notes.md --model o3-mini\n"
         ),
     )
     parser.add_argument(
@@ -34,35 +46,66 @@ def parse_args() -> argparse.Namespace:
         default="openai",
         help=(
             "Report generation provider. Use 'mock' for local demos without "
-            "an OpenAI API key."
+            "an OpenAI API key. (default: openai)"
         ),
+    )
+    parser.add_argument(
+        "--model",
+        choices=list(MODEL_CHOICES),
+        default=None,
+        metavar="MODEL",
+        help=(
+            f"OpenAI model to use (default: {DEFAULT_MODEL}). "
+            f"Overrides OPENAI_MODEL env var.\n{model_help}"
+        ),
+    )
+    parser.add_argument(
+        "--output",
+        default=None,
+        metavar="DIR",
+        help="Directory for generated reports. (default: ./output)",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable verbose logging for debugging API calls.",
     )
     return parser.parse_args()
 
 
 def main() -> int:
-    """Run the Discovery Copilot CLI."""
-
     args = parse_args()
+
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.WARNING,
+        format="%(levelname)s %(name)s: %(message)s",
+    )
+
+    output_dir = Path(args.output) if args.output else None
 
     try:
         document = load_input_document(args.input_file)
+
         if args.provider == "mock":
             client = MockDiscoveryClient()
         else:
-            settings = load_settings()
+            settings = load_settings(model_override=args.model)
             client = DiscoveryOpenAIClient(settings)
-        written_files = generate_reports(document, client)
+            print(f"Model: {settings.model}", file=sys.stderr)
+
+        print(f"Generating 11 reports from: {args.input_file}", file=sys.stderr)
+        written_files = generate_reports(document, client, output_dir=output_dir)
+
     except DiscoveryCopilotError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
     except KeyboardInterrupt:
-        print("Error: Operation cancelled by user.", file=sys.stderr)
+        print("\nCancelled.", file=sys.stderr)
         return 130
 
-    print("Discovery reports generated successfully:")
+    print("\nDiscovery reports generated:")
     for path in written_files:
-        print(f"- {Path(path)}")
+        print(f"  {path}")
 
     return 0
 
