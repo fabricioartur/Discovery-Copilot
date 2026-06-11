@@ -166,11 +166,16 @@ Explore the sample package:
 - [Discovery meeting notes](examples/northstar-retail-group/discovery-meeting-notes.md)
 - [Generated sample output files](examples/northstar-retail-group/generated-output)
 - [Consolidated sample report](examples/northstar-retail-group/consolidated-sample-report.md)
-- [Architecture diagram - SVG](examples/northstar-retail-group/diagrams/architecture.svg)
+- [Discovery Copilot workflow diagram - SVG](examples/northstar-retail-group/diagrams/discovery-copilot-workflow.svg)
+- [Northstar recommended solution architecture - SVG](examples/northstar-retail-group/diagrams/architecture.svg)
 - [Discovery score chart data - CSV](examples/northstar-retail-group/data/discovery-score-chart.csv)
 - [Discovery score chart data - JSON](examples/northstar-retail-group/data/discovery-score-chart.json)
 
-### Sample Architecture Diagram
+### Discovery Copilot Workflow
+
+![Discovery Copilot workflow diagram](examples/northstar-retail-group/diagrams/discovery-copilot-workflow.svg)
+
+### Northstar Recommended Solution Architecture
 
 ![Northstar Retail Group architecture diagram](examples/northstar-retail-group/diagrams/architecture.svg)
 

@@ -13,7 +13,8 @@ structured pre-sales documentation.
 - `discovery-meeting-notes.md` - realistic raw discovery notes
 - `generated-output/` - sample Markdown reports generated from the scenario
 - `consolidated-sample-report.md` - single executive-style report
-- `diagrams/architecture.svg` - architecture diagram
+- `diagrams/discovery-copilot-workflow.svg` - actual Discovery Copilot workflow
+- `diagrams/architecture.svg` - recommended customer solution architecture
 - `data/discovery-score-chart.csv` - chart-ready score data
 - `data/discovery-score-chart.json` - JSON score data for dashboards
 

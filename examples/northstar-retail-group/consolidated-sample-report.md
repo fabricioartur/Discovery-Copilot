@@ -50,7 +50,7 @@ summarize customer and order context, suggest next actions, generate draft case
 notes, and cite approved internal sources. It should not directly modify ERP
 records during phase one.
 
-## Architecture Approach
+## Recommended Customer Solution Architecture
 
 Use Microsoft Entra ID for authentication, Salesforce for case context, MuleSoft
 as the primary API gateway, and approved knowledge repositories for retrieval.
