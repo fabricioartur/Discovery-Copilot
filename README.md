@@ -166,30 +166,13 @@ Explore the sample package:
 - [Discovery meeting notes](examples/northstar-retail-group/discovery-meeting-notes.md)
 - [Generated sample output files](examples/northstar-retail-group/generated-output)
 - [Consolidated sample report](examples/northstar-retail-group/consolidated-sample-report.md)
-- [Mermaid architecture diagram](examples/northstar-retail-group/diagrams/architecture.mmd)
+- [Architecture diagram - SVG](examples/northstar-retail-group/diagrams/architecture.svg)
 - [Discovery score chart data - CSV](examples/northstar-retail-group/data/discovery-score-chart.csv)
 - [Discovery score chart data - JSON](examples/northstar-retail-group/data/discovery-score-chart.json)
 
 ### Sample Architecture Diagram
 
-```mermaid
-flowchart LR
-    Agent["Support Agents"] --> UI["Internal Assistant Experience"]
-    StoreMgr["Store Managers"] --> UI
-    UI --> Entra["Microsoft Entra ID"]
-    Entra --> RBAC["Role-Based Access Controls"]
-    RBAC --> Orchestrator["Copilot Orchestrator"]
-    Orchestrator --> Redaction["PII Redaction and Policy Checks"]
-    Redaction --> Retrieval["RAG Retrieval Index"]
-    Retrieval --> KB["Knowledge Articles"]
-    Orchestrator --> MuleSoft["MuleSoft API Gateway"]
-    MuleSoft --> Salesforce["Salesforce Service Cloud"]
-    MuleSoft --> OMS["Legacy OMS"]
-    MuleSoft --> SAP["SAP ECC"]
-    MuleSoft --> Oracle["Oracle E-Business Suite"]
-    Orchestrator --> Audit["Audit Log"]
-    Audit --> Snowflake["Snowflake Analytics"]
-```
+![Northstar Retail Group architecture diagram](examples/northstar-retail-group/diagrams/architecture.svg)
 
 ### Sample Discovery Score
 
