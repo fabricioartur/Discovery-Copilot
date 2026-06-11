@@ -155,6 +155,55 @@ Markdown documents. Example report content includes:
 - Discovery quality score and maturity assessment
 - Prioritized next-step action plan
 
+## Screenshots and Examples
+
+The repository includes a complete fictional enterprise scenario for
+**Northstar Retail Group**, a large retail company with 420 stores, e-commerce
+operations, customer support teams, and legacy systems across Latin America.
+
+Explore the sample package:
+
+- [Discovery meeting notes](examples/northstar-retail-group/discovery-meeting-notes.md)
+- [Generated sample output files](examples/northstar-retail-group/generated-output)
+- [Consolidated sample report](examples/northstar-retail-group/consolidated-sample-report.md)
+- [Mermaid architecture diagram](examples/northstar-retail-group/diagrams/architecture.mmd)
+- [Discovery score chart data - CSV](examples/northstar-retail-group/data/discovery-score-chart.csv)
+- [Discovery score chart data - JSON](examples/northstar-retail-group/data/discovery-score-chart.json)
+
+### Sample Architecture Diagram
+
+```mermaid
+flowchart LR
+    Agent["Support Agents"] --> UI["Internal Assistant Experience"]
+    StoreMgr["Store Managers"] --> UI
+    UI --> Entra["Microsoft Entra ID"]
+    Entra --> RBAC["Role-Based Access Controls"]
+    RBAC --> Orchestrator["Copilot Orchestrator"]
+    Orchestrator --> Redaction["PII Redaction and Policy Checks"]
+    Redaction --> Retrieval["RAG Retrieval Index"]
+    Retrieval --> KB["Knowledge Articles"]
+    Orchestrator --> MuleSoft["MuleSoft API Gateway"]
+    MuleSoft --> Salesforce["Salesforce Service Cloud"]
+    MuleSoft --> OMS["Legacy OMS"]
+    MuleSoft --> SAP["SAP ECC"]
+    MuleSoft --> Oracle["Oracle E-Business Suite"]
+    Orchestrator --> Audit["Audit Log"]
+    Audit --> Snowflake["Snowflake Analytics"]
+```
+
+### Sample Discovery Score
+
+| Category | Score |
+| --- | ---: |
+| Business Understanding | 82 |
+| Technical Understanding | 76 |
+| Security Understanding | 68 |
+| Stakeholder Mapping | 84 |
+| Requirements Completeness | 71 |
+| Risk Identification | 79 |
+| Architecture Readiness | 74 |
+| Overall Discovery Score | 76 |
+
 ## Future Roadmap
 
 These improvements are intentionally documentation-only and are not implemented
