@@ -7,7 +7,7 @@ import logging
 import sys
 from pathlib import Path
 
-from src.config import MODEL_CHOICES, DEFAULT_MODEL, load_settings
+from src.config import MODEL_CHOICES, REASONING_CHOICES, DEFAULT_MODEL, load_settings
 from src.exceptions import DiscoveryCopilotError
 from src.generator import generate_reports
 from src.input_loader import load_input_document
@@ -66,6 +66,17 @@ def parse_args() -> argparse.Namespace:
         help="Directory for generated reports. (default: ./output)",
     )
     parser.add_argument(
+        "--reasoning",
+        choices=list(REASONING_CHOICES),
+        default=None,
+        metavar="LEVEL",
+        help=(
+            "Reasoning effort for GPT-5 models: low | medium | high | extra_high. "
+            "Higher effort produces deeper analysis at increased cost and latency. "
+            "When set, temperature is disabled (reasoning models control their own sampling)."
+        ),
+    )
+    parser.add_argument(
         "--verbose",
         action="store_true",
         help="Enable verbose logging for debugging API calls.",
@@ -89,9 +100,10 @@ def main() -> int:
         if args.provider == "mock":
             client = MockDiscoveryClient()
         else:
-            settings = load_settings(model_override=args.model)
+            settings = load_settings(model_override=args.model, reasoning_override=args.reasoning)
             client = DiscoveryOpenAIClient(settings)
-            print(f"Model: {settings.model}", file=sys.stderr)
+            reasoning_label = f"  Reasoning: {settings.reasoning_effort}" if settings.reasoning_effort else ""
+            print(f"Model: {settings.model}{reasoning_label}", file=sys.stderr)
 
         print(f"Generating 11 reports from: {args.input_file}", file=sys.stderr)
         written_files = generate_reports(document, client, output_dir=output_dir)

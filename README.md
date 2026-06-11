@@ -87,13 +87,34 @@ The model can also be set via environment variable:
 OPENAI_MODEL=gpt-5.4
 ```
 
+### Reasoning Effort
+
+GPT-5 models support a `--reasoning` flag that controls how deeply the model thinks before producing output. This is the same parameter exposed in Codex.
+
+| Level | Use When |
+|-------|----------|
+| `low` | Fast summaries and routine notes — lowest cost |
+| `medium` | Balanced quality for standard enterprise accounts |
+| `high` | Complex accounts, technical architecture, compliance-heavy scenarios |
+| `extra_high` | Strategic accounts, board-level deliverables, maximum output quality |
+
+```bash
+# High-quality reasoning for a complex enterprise account
+python main.py input/notes.md --model gpt-5.4 --reasoning high
+
+# Maximum depth for a strategic account
+python main.py input/notes.md --model gpt-5.5 --reasoning extra_high
+```
+
+> **Note:** When `--reasoning` is set, `temperature` is disabled — reasoning models control their own sampling internally.
+
 ---
 
 ## CLI Reference
 
 ```
 usage: discovery-copilot [-h] [--provider {openai,mock}] [--model MODEL]
-                         [--output DIR] [--verbose]
+                         [--reasoning LEVEL] [--output DIR] [--verbose]
                          input_file
 
 positional arguments:
@@ -103,6 +124,8 @@ options:
   --provider {openai,mock}
                         'mock' runs locally without an API key. (default: openai)
   --model MODEL         gpt-5.4-mini | gpt-5.4 | gpt-5.5 (default: gpt-5.4-mini)
+  --reasoning LEVEL     low | medium | high | extra_high — reasoning effort for
+                        GPT-5 models. Higher effort = deeper analysis, higher cost.
   --output DIR          Directory for generated reports. (default: ./output)
   --verbose             Enable debug logging for API calls.
 ```

@@ -30,6 +30,7 @@ class DiscoveryOpenAIClient:
             timeout=60.0,
         )
         self._model = settings.model
+        self._reasoning_effort = settings.reasoning_effort
 
     def generate_markdown(self, system_prompt: str, user_prompt: str) -> str:
         """Generate Markdown content for one report, with retry on rate limits."""
@@ -41,6 +42,12 @@ class DiscoveryOpenAIClient:
                 "The OpenAI package is not installed. Run: pip install -r requirements.txt"
             ) from exc
 
+        extra_kwargs: dict[str, object] = {}
+        if self._reasoning_effort is not None:
+            extra_kwargs["reasoning"] = {"effort": self._reasoning_effort}
+        else:
+            extra_kwargs["temperature"] = 0.2
+
         last_exc: Exception | None = None
         for attempt in range(_MAX_RETRIES):
             try:
@@ -51,7 +58,7 @@ class DiscoveryOpenAIClient:
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt},
                     ],
-                    temperature=0.2,
+                    **extra_kwargs,
                 )
                 content = response.output_text.strip()
                 if not content:

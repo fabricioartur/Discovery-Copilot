@@ -19,12 +19,16 @@ MODEL_CHOICES: dict[str, str] = {
 DEFAULT_MODEL = "gpt-5.4-mini"
 
 
+REASONING_CHOICES = ("low", "medium", "high", "extra_high")
+
+
 @dataclass(frozen=True)
 class Settings:
     """Application settings loaded from the environment."""
 
     openai_api_key: str
     model: str = DEFAULT_MODEL
+    reasoning_effort: str | None = None
 
 
 def _load_dotenv_if_available() -> None:
@@ -48,12 +52,17 @@ def _load_dotenv_if_available() -> None:
         load_dotenv()
 
 
-def load_settings(model_override: str | None = None) -> Settings:
+def load_settings(
+    model_override: str | None = None,
+    reasoning_override: str | None = None,
+) -> Settings:
     """Load settings from .env and the process environment.
 
     Args:
         model_override: When provided (e.g. from --model CLI flag), takes
             precedence over the OPENAI_MODEL environment variable.
+        reasoning_override: Reasoning effort level from --reasoning CLI flag.
+            One of: low, medium, high, extra_high.
     """
 
     _load_dotenv_if_available()
@@ -77,4 +86,10 @@ def load_settings(model_override: str | None = None) -> Settings:
             f"Unknown model '{model}'. Supported models: {valid}."
         )
 
-    return Settings(openai_api_key=api_key, model=model)
+    if reasoning_override is not None and reasoning_override not in REASONING_CHOICES:
+        valid_r = ", ".join(REASONING_CHOICES)
+        raise ConfigurationError(
+            f"Unknown reasoning effort '{reasoning_override}'. Valid options: {valid_r}."
+        )
+
+    return Settings(openai_api_key=api_key, model=model, reasoning_effort=reasoning_override)
