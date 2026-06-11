@@ -25,10 +25,32 @@ evaluating Solutions Engineer or Pre-Sales Engineer skills.
 - `discovery_report.md` - consolidated executive and technical report
 - `visuals/solution_flow.mmd` - Mermaid solution flow diagram
 - `visuals/target_architecture.mmd` - Mermaid target architecture diagram
-- `visuals/portfolio_overview.png` - PNG preview for GitHub and portfolio use
-- `visuals/portfolio_overview.svg` - PNG-ready visual asset
+- `visuals/portfolio_banner.png` - repository hero visual
+- `visuals/discovery_copilot_workflow.png` - product workflow visual
+- `visuals/northstar_target_architecture.png` - customer target architecture visual
+- `visuals/discovery_scores_and_coverage.png` - score and coverage chart visual
 - `chart_data/discovery_scores.csv` - discovery quality score data
 - `chart_data/requirements_coverage.csv` - requirements coverage data
+
+## Visual Preview
+
+![Discovery Copilot portfolio banner](visuals/portfolio_banner.png)
+
+![Discovery Copilot workflow](visuals/discovery_copilot_workflow.png)
+
+![Northstar target architecture](visuals/northstar_target_architecture.png)
+
+![Discovery scores and requirements coverage](visuals/discovery_scores_and_coverage.png)
+
+## Regenerating Visuals
+
+The PNG visuals are committed for easy GitHub review. To regenerate them after
+editing the visual script, install development dependencies and run:
+
+```bash
+pip install -r requirements-dev.txt
+python3 scripts/generate_portfolio_images.py
+```
 
 ## Suggested Portfolio Walkthrough
 
