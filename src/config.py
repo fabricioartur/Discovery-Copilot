@@ -11,12 +11,12 @@ from src.exceptions import ConfigurationError
 # Supported models and the trade-off rationale used when advising customers
 # which model to choose for their own OpenAI deployments.
 MODEL_CHOICES: dict[str, str] = {
-    "gpt-4o-mini": "Fast, cost-efficient. Best default for routine discovery notes.",
-    "gpt-4o":      "Highest quality. Use for complex enterprise accounts or final reports.",
-    "o3-mini":     "Reasoning model. Best for deep gap analysis and multi-step inference.",
+    "gpt-5.4-mini": "Fast, cost-efficient ($0.75/$4.50 per MTok). Best default for routine discovery notes.",
+    "gpt-5.4":      "High quality ($2.50/$15 per MTok). Use for complex enterprise accounts or final reports.",
+    "gpt-5.5":      "Frontier model ($5/$30 per MTok). Best for strategic accounts and board-level deliverables.",
 }
 
-DEFAULT_MODEL = "gpt-4o-mini"
+DEFAULT_MODEL = "gpt-5.4-mini"
 
 
 @dataclass(frozen=True)

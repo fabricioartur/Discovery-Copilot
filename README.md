@@ -64,27 +64,27 @@ python main.py input/my_notes.md
 
 Discovery Copilot supports three OpenAI models. The right model depends on the account complexity and your goals:
 
-| Model | Use When | Why |
-|-------|----------|-----|
-| `gpt-4o-mini` *(default)* | Routine discovery, daily use | Fast, cost-efficient. Produces excellent structured output at low cost |
-| `gpt-4o` | Strategic accounts, final reports, board-level deliverables | Highest reasoning quality. Best for complex multi-stakeholder enterprise scenarios |
-| `o3-mini` | Deep gap analysis, multi-step inference, compliance scenarios | Reasoning model. Excels at identifying what's missing and why it matters |
+| Model | Cost (input / output per MTok) | Use When |
+|-------|-------------------------------|----------|
+| `gpt-5.4-mini` *(default)* | $0.75 / $4.50 | Routine discovery, daily use — fast and cost-efficient |
+| `gpt-5.4` | $2.50 / $15.00 | Complex enterprise accounts and final deliverables |
+| `gpt-5.5` | $5.00 / $30.00 | Strategic accounts, board-level reports, highest output quality |
 
 ```bash
 # Default (fast, cost-efficient)
 python main.py input/notes.md
 
-# Strategic account (highest quality)
-python main.py input/notes.md --model gpt-4o
+# Complex enterprise account
+python main.py input/notes.md --model gpt-5.4
 
-# Deep gap and compliance analysis
-python main.py input/notes.md --model o3-mini
+# Strategic account — highest quality
+python main.py input/notes.md --model gpt-5.5
 ```
 
 The model can also be set via environment variable:
 
 ```env
-OPENAI_MODEL=gpt-4o
+OPENAI_MODEL=gpt-5.4
 ```
 
 ---
@@ -102,7 +102,7 @@ positional arguments:
 options:
   --provider {openai,mock}
                         'mock' runs locally without an API key. (default: openai)
-  --model MODEL         gpt-4o-mini | gpt-4o | o3-mini (default: gpt-4o-mini)
+  --model MODEL         gpt-5.4-mini | gpt-5.4 | gpt-5.5 (default: gpt-5.4-mini)
   --output DIR          Directory for generated reports. (default: ./output)
   --verbose             Enable debug logging for API calls.
 ```

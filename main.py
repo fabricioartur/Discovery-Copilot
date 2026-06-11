@@ -32,8 +32,8 @@ def parse_args() -> argparse.Namespace:
             "  python main.py input/my_notes.md\n\n"
             "  # High-quality run for a strategic account\n"
             "  python main.py input/my_notes.md --model gpt-4o\n\n"
-            "  # Deep gap analysis using a reasoning model\n"
-            "  python main.py input/my_notes.md --model o3-mini\n"
+            "  # Frontier model for strategic accounts\n"
+            "  python main.py input/my_notes.md --model gpt-5.5\n"
         ),
     )
     parser.add_argument(
