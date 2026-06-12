@@ -1,0 +1,49 @@
+<svg viewBox="0 0 860 470" xmlns="http://www.w3.org/2000/svg" font-family="'Menlo','SF Mono','Courier New',monospace" role="img">
+  <title>Discovery Copilot — Terminal Demo</title>
+
+  <!-- Terminal background -->
+  <rect width="860" height="470" rx="8" fill="#1c1c1c"/>
+
+  <!-- Window chrome -->
+  <rect width="860" height="30" rx="8" fill="#2d2d2d"/>
+  <rect y="20" width="860" height="10" fill="#2d2d2d"/>
+  <circle cx="18" cy="15" r="5.5" fill="#ff5f56"/>
+  <circle cx="36" cy="15" r="5.5" fill="#ffbd2e"/>
+  <circle cx="54" cy="15" r="5.5" fill="#27c93f"/>
+
+  <!-- Command -->
+  <text x="20" y="58" fill="#ffffff" font-size="13">
+    <tspan fill="#27c93f">fabricioartur@MacBook</tspan>
+    <tspan fill="#ffffff"> </tspan>
+    <tspan fill="#4fc3f7">Discovery-Copilot</tspan>
+    <tspan fill="#ffffff"> % </tspan>
+    <tspan>python3 main.py examples/northstar_retail_group/discovery_notes.md</tspan>
+  </text>
+
+  <!-- Model + header -->
+  <text x="20" y="82" fill="#aaaaaa" font-size="13">Model: gpt-5.4-mini</text>
+  <text x="20" y="102" fill="#ffffff" font-size="13">Generating 11 reports from: examples/northstar_retail_group/discovery_notes.md</text>
+
+  <!-- Progress -->
+  <text x="36" y="124" fill="#ffffff" font-size="13">  [1/11]  Technical Requirements</text>
+  <text x="36" y="142" fill="#ffffff" font-size="13">  [2/11]  Business Challenges</text>
+  <text x="36" y="160" fill="#ffffff" font-size="13">  [3/11]  Executive Summary</text>
+  <text x="36" y="178" fill="#ffffff" font-size="13">  [4/11]  Customer Profile</text>
+  <text x="36" y="196" fill="#ffffff" font-size="13">  [5/11]  Discovery Gaps</text>
+  <text x="36" y="214" fill="#ffffff" font-size="13">  [6/11]  Discovery Quality Score</text>
+  <text x="36" y="232" fill="#ffffff" font-size="13">  [7/11]  Recommended Next Questions</text>
+  <text x="36" y="250" fill="#ffffff" font-size="13">  [8/11]  Discovery Maturity Assessment</text>
+  <text x="36" y="268" fill="#ffffff" font-size="13">  [9/11]  Next Steps</text>
+  <text x="36" y="286" fill="#ffffff" font-size="13">  [10/11] Solution Recommendations</text>
+  <text x="36" y="304" fill="#ffffff" font-size="13">  [11/11] Customer Meeting Brief</text>
+
+  <!-- Generated files -->
+  <text x="20" y="330" fill="#ffffff" font-size="13">Discovery reports generated:</text>
+  <text x="36" y="350" fill="#aaaaaa" font-size="12">  ./output/Executive Summary.md</text>
+  <text x="36" y="367" fill="#aaaaaa" font-size="12">  ./output/Customer Profile.md</text>
+  <text x="36" y="384" fill="#aaaaaa" font-size="12">  ./output/Business Challenges.md</text>
+  <text x="36" y="401" fill="#aaaaaa" font-size="12">  ./output/Technical Requirements.md</text>
+  <text x="36" y="418" fill="#aaaaaa" font-size="12">  ./output/Discovery Gaps.md  ·  ./output/Recommended Next Questions.md</text>
+  <text x="36" y="435" fill="#aaaaaa" font-size="12">  ./output/Customer Meeting Brief.md  ·  ./output/Solution Recommendations.md</text>
+  <text x="36" y="452" fill="#aaaaaa" font-size="12">  ./output/Discovery Quality Score.md  ·  ./output/Discovery Maturity Assessment.md  ·  ./output/Next Steps.md</text>
+</svg>

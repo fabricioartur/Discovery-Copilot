@@ -41,6 +41,12 @@ One command produces 11 structured Markdown reports:
 
 ---
 
+## Preview
+
+![Terminal Demo](docs/images/demo_terminal.svg)
+
+---
+
 ## Quick Start
 
 ```bash
