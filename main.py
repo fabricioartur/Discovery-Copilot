@@ -7,7 +7,7 @@ import logging
 import sys
 from pathlib import Path
 
-from src.config import MODEL_CHOICES, REASONING_CHOICES, DEFAULT_MODEL, load_settings
+from src.config import DEFAULT_MODEL, MODEL_CHOICES, REASONING_CHOICES, load_settings
 from src.exceptions import DiscoveryCopilotError
 from src.generator import generate_reports
 from src.input_loader import load_input_document
@@ -97,6 +97,7 @@ def main() -> int:
     try:
         document = load_input_document(args.input_file)
 
+        client: MockDiscoveryClient | DiscoveryOpenAIClient
         if args.provider == "mock":
             client = MockDiscoveryClient()
         else:
